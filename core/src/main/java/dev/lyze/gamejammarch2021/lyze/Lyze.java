@@ -3,6 +3,7 @@ package dev.lyze.gamejammarch2021.lyze;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lombok.var;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -14,9 +15,13 @@ public class Lyze
 
     private final BodyPart beak, fluff, hair;
 
+    private final BodyPart pants, jacket, goggles;
+
     private final Animation<TextureRegion> walkBodyAnimation, walkFrontArmAnimation, walkBackArmAnimation, walkHeadAnimation;
 
     private final Animation<TextureRegion> walkBeakAnimation, walkFluffAnimation, walkHairAnimation;
+
+    private final Animation<TextureRegion> walkPantsAnimation, walkJacketAnimation, walkGogglesAnimation;
 
     private float totalDeltaTime;
 
@@ -33,14 +38,23 @@ public class Lyze
         fluff = new BodyPart(Gdx.files.internal("lyze/fluff.frames"));
         hair = new BodyPart(Gdx.files.internal("lyze/hair.frames"));
 
-        walkBodyAnimation = new Animation<>(0.2f, body.generateAnimation("walk", 1, 2, 3, 4, 5, 6, 7, 8), Animation.PlayMode.LOOP);
-        walkFrontArmAnimation = new Animation<>(0.2f, frontArm.generateAnimation("walk", humanoid.get().armWalkSeq), Animation.PlayMode.LOOP);
-        walkBackArmAnimation = new Animation<>(0.2f, backArm.generateAnimation("walk", humanoid.get().armWalkSeq), Animation.PlayMode.LOOP);
-        walkHeadAnimation = new Animation<>(0.2f, head.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        pants = new BodyPart(Gdx.files.internal("steampunk/pants.frames"));
+        jacket = new BodyPart(Gdx.files.internal("steampunk/chest.frames"));
+        goggles = new BodyPart(Gdx.files.internal("steampunk/head.frames"));
 
-        walkBeakAnimation = new Animation<>(0.2f, beak.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
-        walkFluffAnimation = new Animation<>(0.2f, fluff.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
-        walkHairAnimation = new Animation<>(0.2f, hair.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        float frameDuration = humanoid.get().humanoidTiming.stateCycle[1] / 8f; // cycle / amount of frames ?
+        walkBodyAnimation = new Animation<>(frameDuration, body.generateAnimation("walk", 1, 2, 3, 4, 5, 6, 7, 8), Animation.PlayMode.LOOP);
+        walkFrontArmAnimation = new Animation<>(frameDuration, frontArm.generateAnimation("walk", humanoid.get().armWalkSeq), Animation.PlayMode.LOOP);
+        walkBackArmAnimation = new Animation<>(frameDuration, backArm.generateAnimation("walk", humanoid.get().armWalkSeq), Animation.PlayMode.LOOP);
+        walkHeadAnimation = new Animation<>(frameDuration, head.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+
+        walkBeakAnimation = new Animation<>(frameDuration, beak.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        walkFluffAnimation = new Animation<>(frameDuration, fluff.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        walkHairAnimation = new Animation<>(frameDuration, hair.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+
+        walkPantsAnimation = new Animation<>(frameDuration, pants.generateAnimation("walk", 1, 2, 3, 4, 5, 6, 7, 8), Animation.PlayMode.LOOP);
+        walkJacketAnimation = new Animation<>(frameDuration, jacket.generateAnimation("chest", 1), Animation.PlayMode.LOOP);
+        walkGogglesAnimation = new Animation<>(frameDuration, goggles.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
     }
 
     public void update(float delta)
@@ -50,16 +64,28 @@ public class Lyze
 
     public void render(SpriteBatch batch)
     {
+        var walkBob = humanoid.get().walkBob[walkBodyAnimation.getKeyFrameIndex(totalDeltaTime)];
+
         batch.draw(walkBackArmAnimation.getKeyFrame(totalDeltaTime), 0, 0);
+
+        // body
         batch.draw(walkBodyAnimation.getKeyFrame(totalDeltaTime), 0, 0);
+
+        // clothes
+        batch.draw(walkPantsAnimation.getKeyFrame(totalDeltaTime), 0, 0);
+        batch.draw(walkJacketAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
+
+        // front arm
         batch.draw(walkFrontArmAnimation.getKeyFrame(totalDeltaTime), 0, 0);
 
-        var headOffset = humanoid.get().walkBob[walkBodyAnimation.getKeyFrameIndex(totalDeltaTime)];
-        batch.draw(walkHeadAnimation.getKeyFrame(totalDeltaTime), 0, headOffset);
+        //head
+        batch.draw(walkHeadAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
+        batch.draw(walkHairAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
+        batch.draw(walkFluffAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
+        batch.draw(walkBeakAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
 
-        batch.draw(walkHairAnimation.getKeyFrame(totalDeltaTime), 0, headOffset);
-        batch.draw(walkFluffAnimation.getKeyFrame(totalDeltaTime), 0, headOffset);
-        batch.draw(walkBeakAnimation.getKeyFrame(totalDeltaTime), 0, headOffset);
+        // goggles
+        batch.draw(walkGogglesAnimation.getKeyFrame(totalDeltaTime), 0, walkBob);
     }
 
     public void debugRender(ShapeDrawer drawer)

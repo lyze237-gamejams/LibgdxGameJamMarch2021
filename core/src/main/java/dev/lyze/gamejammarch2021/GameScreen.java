@@ -1,6 +1,7 @@
 package dev.lyze.gamejammarch2021;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -49,8 +50,11 @@ public class GameScreen extends ManagedScreen
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() { }
 
+    @Override
+    public Color getClearColor()
+    {
+        return Color.DARK_GRAY;
     }
 }

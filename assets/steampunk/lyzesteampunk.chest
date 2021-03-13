@@ -1,0 +1,47 @@
+{
+  "itemName" : "lyzesteampunkchest",
+  "price" : 35,
+  "inventoryIcon" : "icons.png:chest",
+  "maxStack" : 1,
+  "rarity" : "Legendary",
+  "category" : "chestwear",
+  "description" : "Lyze's Jacket.",
+  "shortdescription" : "Lyze's Jacket.",
+  "tooltipKind" : "armor",
+  "maleFrames" : {
+    "body" : "chestm.png",
+    "backSleeve" : "bsleeve.png",
+    "frontSleeve" : "fsleeve.png"
+  },
+  "femaleFrames" : {
+    "body" : "chestf.png",
+    "backSleeve" : "bsleeve.png",
+    "frontSleeve" : "fsleeve.png"
+  },
+  "colorOptions" : [
+    // DEFAULT
+    {  },
+    // BLACK
+    {  },
+    // GREY
+    {  },
+    // WHITE
+    {  },
+    // RED
+    {  },
+    // ORANGE
+    {  },
+    // YELLOW
+    {  },
+    // GREEN
+    {  },
+    // BLUE
+    {  },
+    // PURPLE
+    {  },
+    // PINK
+    {  },
+    // BROWN
+    {  }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "itemName" : "lyzesteampunkhead",
+  "price" : 35,
+  "size" : [43, 43],
+  "inventoryIcon" : "icons.png:head",
+  "maxStack" : 1,
+  "rarity" : "Legendary",
+  "category" : "headwear",
+  "description" : "Lyze's Goggles.",
+  "shortdescription" : "Lyze's Goggles.",
+  "tooltipKind" : "armor",
+
+  "maleFrames" : "head.png",
+  "femaleFrames" : "head.png",
+  "mask" : "mask.png",
+
+  "colorOptions" : [
+    // DEFAULT  
+    {  },
+    // BLACK
+    {  },
+    // GREY
+    {  },
+    // WHITE
+    {  },
+    // RED
+    {  },
+    // ORANGE
+    {  },
+    // YELLOW
+    {  },
+    // GREEN
+    {  },
+    // BLUE
+    {  },
+    // PURPLE
+    {  },
+    // PINK
+    {  },
+    // BROWN
+    {  }
+  ]
+}

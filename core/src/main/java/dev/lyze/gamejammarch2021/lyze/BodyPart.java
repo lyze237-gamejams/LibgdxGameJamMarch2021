@@ -27,7 +27,7 @@ public class BodyPart
 
         var frameList = json.get("frameList");
         if (frameList == null)
-            generateAtlasFromGrid(generateGridMapping(json));
+            generateAtlas(generateGridMapping(json));
         else
             generateAtlasFromList(frameList);
     }
@@ -56,8 +56,7 @@ public class BodyPart
                 var entryName = entryArray[0];
                 var entryIndex = entryArray.length == 1 ? 1 : Integer.parseInt(entryArray[1]);
 
-                if (!mapping.containsKey(entryName))
-                    mapping.put(entryName, new ArrayList<>());
+                mapping.putIfAbsent(entryName, new ArrayList<>());
 
                 mapping.get(entryName).add(new Tuple<>(entryIndex, new TextureRegion(texture, x * size.x, y * size.y, size.x, size.y)));
             }
@@ -97,7 +96,7 @@ public class BodyPart
         }
     }
 
-    private void generateAtlasFromGrid(HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> mapping)
+    private void generateAtlas(HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> mapping)
     {
         for (String animationName : mapping.keySet())
         {
@@ -112,12 +111,24 @@ public class BodyPart
     private void generateAtlasFromList(JsonValue frameList)
     {
         var name = frameList.child;
+
+        var mapping = new HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>>();
+
         while (name != null) {
             var dimension = name.asIntArray();
-            atlas.addRegion(name.name, new TextureRegion(texture, dimension[0], dimension[1], dimension[2], dimension[3]));
+
+            var entryArray = name.name.split("\\.");
+            var entryName = entryArray[0];
+            var entryIndex = entryArray.length == 1 ? 1 : Integer.parseInt(entryArray[1]);
+
+            mapping.putIfAbsent(entryName, new ArrayList<>());
+
+            mapping.get(entryName).add(new Tuple<>(entryIndex, new TextureRegion(texture, dimension[0], dimension[1], dimension[2], dimension[3])));
 
             name = name.next;
         }
+
+        generateAtlas(mapping);
     }
 
     public Array<TextureRegion> generateAnimation(String region, int... indexes) {
