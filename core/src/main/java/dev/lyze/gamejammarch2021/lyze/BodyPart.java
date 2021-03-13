@@ -1,4 +1,4 @@
-package dev.lyze.gamejammarch2021;
+package dev.lyze.gamejammarch2021.lyze;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,9 +17,6 @@ public class BodyPart
 {
     private final Texture texture;
 
-    private GridPoint2 size;
-    private GridPoint2 dimension;
-
     private final TextureAtlas atlas = new TextureAtlas();
 
     public BodyPart(FileHandle jsonFile)
@@ -28,27 +25,20 @@ public class BodyPart
 
         var json = new JsonReader().parse(jsonFile);
 
-        readMetadata(json);
-
-        var mapping = generateTextureMapping(json);
-
-        generateTextureAtlas(mapping);
+        var frameList = json.get("frameList");
+        if (frameList == null)
+            generateAtlasFromGrid(generateGridMapping(json));
+        else
+            generateAtlasFromList(frameList);
     }
 
-    private void readMetadata(JsonValue json)
+    private HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> generateGridMapping(JsonValue json)
     {
         var frameGrid = json.get("frameGrid");
 
         var sizes = frameGrid.get("size").asIntArray();
-        size = new GridPoint2(sizes[0], sizes[1]);
+        var size = new GridPoint2(sizes[0], sizes[1]);
 
-        var dimensions = frameGrid.get("dimensions").asIntArray();
-        dimension = new GridPoint2(dimensions[0], dimensions[1]);
-    }
-
-    private HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> generateTextureMapping(JsonValue json)
-    {
-        var frameGrid = json.get("frameGrid");
         var names = frameGrid.get("names");
 
         var mapping = new HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>>();
@@ -107,7 +97,7 @@ public class BodyPart
         }
     }
 
-    private void generateTextureAtlas(HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> mapping)
+    private void generateAtlasFromGrid(HashMap<String, ArrayList<Tuple<Integer, TextureRegion>>> mapping)
     {
         for (String animationName : mapping.keySet())
         {
@@ -116,6 +106,17 @@ public class BodyPart
 
             for (Tuple<Integer, TextureRegion> index : animations)
                 atlas.addRegion(animationName, index.getItem2());
+        }
+    }
+
+    private void generateAtlasFromList(JsonValue frameList)
+    {
+        var name = frameList.child;
+        while (name != null) {
+            var dimension = name.asIntArray();
+            atlas.addRegion(name.name, new TextureRegion(texture, dimension[0], dimension[1], dimension[2], dimension[3]));
+
+            name = name.next;
         }
     }
 
