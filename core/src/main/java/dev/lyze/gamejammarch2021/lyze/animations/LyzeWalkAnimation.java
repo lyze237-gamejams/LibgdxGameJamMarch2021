@@ -1,0 +1,27 @@
+package dev.lyze.gamejammarch2021.lyze.animations;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import dev.lyze.gamejammarch2021.lyze.setup.LyzeBodyParts;
+
+public class LyzeWalkAnimation extends LyzeAnimation
+{
+    public LyzeWalkAnimation(LyzeBodyParts bodyParts)
+    {
+        super(bodyParts);
+
+        float frameDuration = parts.humanoid.humanoidTiming.stateCycle[1] / 8f; // cycle / amount of frames ?
+
+        bodyAnimation = new Animation<>(frameDuration, parts.body.generateAnimation("walk", 1, 2, 3, 4, 5, 6, 7, 8), Animation.PlayMode.LOOP);
+        frontArmAnimation = new Animation<>(frameDuration, parts.frontArm.generateAnimation("walk", parts.humanoid.armWalkSeq), Animation.PlayMode.LOOP);
+        backArmAnimation = new Animation<>(frameDuration, parts.backArm.generateAnimation("walk", parts.humanoid.armWalkSeq), Animation.PlayMode.LOOP);
+        headAnimation = new Animation<>(frameDuration, parts.head.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+
+        beakAnimation = new Animation<>(frameDuration, parts.beak.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        fluffAnimation = new Animation<>(frameDuration, parts.fluff.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+        hairAnimation = new Animation<>(frameDuration, parts.hair.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+
+        pantsAnimation = new Animation<>(frameDuration, parts.pants.generateAnimation("walk", 1, 2, 3, 4, 5, 6, 7, 8), Animation.PlayMode.LOOP);
+        jacketAnimation = new Animation<>(frameDuration, parts.jacket.generateAnimation("chest", 1), Animation.PlayMode.LOOP);
+        gogglesAnimation = new Animation<>(frameDuration, parts.goggles.generateAnimation("normal", 1), Animation.PlayMode.LOOP);
+    }
+}

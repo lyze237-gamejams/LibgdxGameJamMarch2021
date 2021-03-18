@@ -1,4 +1,4 @@
-package dev.lyze.gamejammarch2021.lyze;
+package dev.lyze.gamejammarch2021.lyze.setup;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
