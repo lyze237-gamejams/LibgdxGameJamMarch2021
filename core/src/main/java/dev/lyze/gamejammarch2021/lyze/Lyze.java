@@ -7,10 +7,14 @@ import dev.lyze.gamejammarch2021.lyze.states.LyzeStateMachine;
 import dev.lyze.gamejammarch2021.lyze.states.data.LyzeData;
 import dev.lyze.gamejammarch2021.lyze.states.grounded.LyzeIdleState;
 import dev.lyze.gamejammarch2021.lyze.states.grounded.LyzeMoveState;
+import dev.lyze.gamejammarch2021.utils.Logger;
 import lombok.Getter;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Lyze
 {
+    private static final Logger<Lyze> logger = new Logger<>(Lyze.class);
+
     private final LyzeData data;
 
     @Getter
@@ -23,6 +27,8 @@ public class Lyze
     @Getter
     private final LyzeInputHandler inputHandler = new LyzeInputHandler();
 
+    @Getter
+    private int facingDirection = 1;
 
     public Lyze()
     {
@@ -47,8 +53,27 @@ public class Lyze
         stateMachine.getCurrentState().render(batch);
     }
 
+    public void debugRender(ShapeDrawer drawer)
+    {
+        stateMachine.getCurrentState().debugRender(drawer);
+    }
+
     public void setVelocityX(float velocity)
     {
 
+    }
+
+    public void checkIfShouldFlip(float xInput)
+    {
+        if (xInput > 0 && facingDirection != 1f)
+            flip();
+        else if (xInput < 0 && facingDirection != -1f)
+            flip();
+    }
+
+    private void flip()
+    {
+        logger.logDebug("flip character");
+        facingDirection *= -1;
     }
 }

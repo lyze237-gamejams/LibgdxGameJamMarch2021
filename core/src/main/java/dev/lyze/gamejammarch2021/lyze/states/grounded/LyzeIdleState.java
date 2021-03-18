@@ -26,7 +26,7 @@ public class LyzeIdleState extends LyzeGroundedState
     {
         super.logicUpdate(delta);
 
-        if (input.x != 0)
+        if (lyze.getInputHandler().getMovementInput().x != 0)
             stateMachine.changeState(lyze.getMoveState());
     }
 }

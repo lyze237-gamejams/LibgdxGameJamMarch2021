@@ -33,6 +33,7 @@ public class GameScreen extends ManagedScreen
         batch.begin();
 
         lyze.render(batch);
+        lyze.debugRender(drawer);
 
         batch.end();
     }

@@ -17,9 +17,11 @@ public class LyzeMoveState extends LyzeGroundedState
     {
         super.logicUpdate(delta);
 
-        if (input.x == 0)
-            stateMachine.changeState(lyze.getIdleState());
+        lyze.setVelocityX(lyze.getInputHandler().getMovementInput().x /* * ...*/);
 
-        lyze.setVelocityX(input.x /* * ...*/);
+        lyze.checkIfShouldFlip(lyze.getInputHandler().getMovementInput().x);
+
+        if (lyze.getInputHandler().getMovementInput().x == 0)
+            stateMachine.changeState(lyze.getIdleState());
     }
 }

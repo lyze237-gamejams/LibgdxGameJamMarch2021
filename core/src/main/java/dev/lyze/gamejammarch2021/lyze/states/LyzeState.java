@@ -5,6 +5,7 @@ import dev.lyze.gamejammarch2021.lyze.Lyze;
 import dev.lyze.gamejammarch2021.lyze.animations.LyzeAnimation;
 import dev.lyze.gamejammarch2021.lyze.states.data.LyzeData;
 import dev.lyze.gamejammarch2021.utils.Logger;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class LyzeState
 {
@@ -49,7 +50,12 @@ public class LyzeState
 
     public void render(SpriteBatch batch)
     {
-        animation.render(batch, timeInState);
+        animation.render(batch, timeInState, lyze.getFacingDirection());
+    }
+
+    public void debugRender(ShapeDrawer drawer)
+    {
+        animation.debugRender(drawer, timeInState);
     }
 
     public void doChecks()
