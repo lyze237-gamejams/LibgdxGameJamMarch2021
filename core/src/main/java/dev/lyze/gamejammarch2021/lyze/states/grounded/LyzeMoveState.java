@@ -11,4 +11,15 @@ public class LyzeMoveState extends LyzeGroundedState
     {
         super(lyze, stateMachine, lyzeData, animation);
     }
+
+    @Override
+    public void logicUpdate(float delta)
+    {
+        super.logicUpdate(delta);
+
+        if (input.x == 0)
+            stateMachine.changeState(lyze.getIdleState());
+
+        lyze.setVelocityX(input.x /* * ...*/);
+    }
 }

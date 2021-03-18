@@ -15,7 +15,7 @@ public class LyzeState
 
     protected LyzeData lyzeData;
 
-    protected float startTime;
+    protected float timeInState;
 
     private LyzeAnimation animation;
 
@@ -32,14 +32,14 @@ public class LyzeState
     public void enter()
     {
         logger.logDebug("state enter");
-        startTime = System.currentTimeMillis();
+        timeInState = 0;
 
         doChecks();
     }
 
     public void logicUpdate(float delta)
     {
-
+        timeInState += delta;
     }
 
     public void physicsUpdate(float delta)
@@ -49,7 +49,7 @@ public class LyzeState
 
     public void render(SpriteBatch batch)
     {
-        animation.render(batch, startTime);
+        animation.render(batch, timeInState);
     }
 
     public void doChecks()

@@ -20,6 +20,9 @@ public class Lyze
     @Getter
     private final LyzeMoveState moveState;
 
+    @Getter
+    private final LyzeInputHandler inputHandler = new LyzeInputHandler();
+
 
     public Lyze()
     {
@@ -33,6 +36,8 @@ public class Lyze
 
     public void update(float delta)
     {
+        inputHandler.update(delta);
+
         stateMachine.getCurrentState().logicUpdate(delta);
         stateMachine.getCurrentState().physicsUpdate(delta);
     }
@@ -40,5 +45,10 @@ public class Lyze
     public void render(SpriteBatch batch)
     {
         stateMachine.getCurrentState().render(batch);
+    }
+
+    public void setVelocityX(float velocity)
+    {
+
     }
 }
