@@ -123,7 +123,7 @@ public class BodyPart
 
             mapping.putIfAbsent(entryName, new ArrayList<>());
 
-            mapping.get(entryName).add(new Tuple<>(entryIndex, new TextureRegion(texture, dimension[0], dimension[1], dimension[2], dimension[3])));
+            mapping.get(entryName).add(new Tuple<>(entryIndex, new TextureRegion(texture, dimension[0], dimension[1], dimension[2] - dimension[0], dimension[3] - dimension[1])));
 
             name = name.next;
         }
